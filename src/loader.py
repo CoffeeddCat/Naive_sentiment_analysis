@@ -56,5 +56,6 @@ class Loader:
                     s.add(word)
         self.dict_len = len(self.dict)
         # print(self.dict)
+
 # for test
 # Loader(FILE_LOC_POS)

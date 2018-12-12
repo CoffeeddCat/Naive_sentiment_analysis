@@ -9,7 +9,7 @@ if __name__ == "__main__":
     loader_neg = Loader(FILE_LOC_NEG)
     pos_dict = copy.deepcopy(loader_pos.dict)
     neg_dict = copy.deepcopy(loader_neg.dict)
-    all_dict = dict(Counter(pos_dict)+Counter(neg_dict))
+    all_dict = dict(Counter(pos_dict) + Counter(neg_dict))
     number_pos = len(loader_pos.sentences)
     number_neg = len(loader_neg.sentences)
     print(number_pos)
@@ -51,4 +51,4 @@ if __name__ == "__main__":
 
         if (sum_pos > sum_neg):
             correct = correct + 1
-    print(correct/number_pos)
+    print(correct / number_pos)
