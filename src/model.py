@@ -47,9 +47,9 @@ class Network:
         with tf.variable_scope("cnn_part" + self.scope)
             self.conv1 = tf.layers.conv2d(
                 inputs=out,
-                filters=filters,
-                kernel_size=kernel_size,
-                strides=strides,
+                filters=256,
+                kernel_size=(7, self.embedding_dim),
+                strides=1,
                 activation=None,
                 padding="valid"
             )
@@ -57,9 +57,9 @@ class Network:
 
             self.conv2 = tf.layers.conv1d(
                 inputs=self.conv1,
-                filters=,
-                kernel_size=,
-                strides=,
+                filters=64,
+                kernel_size=5,
+                strides=1,
                 activation=None,
                 padding="valid"
             )
@@ -67,9 +67,9 @@ class Network:
 
             self.conv3 = tf.layers.conv1d(
                 inputs=self.conv2,
-                filters=,
-                kernel_size=,
-                strides=,
+                filters=256,
+                kernel_size=3,
+                strides=1,
                 activation=None,
                 padding="valid"
             )
@@ -77,9 +77,9 @@ class Network:
 
             self.conv4 = tf.layers.conv1d(
                 inputs=self.conv3,
-                filters=,
-                kernel_size=,
-                strides=,
+                filters=16,
+                kernel_size=1,
+                strides=1,
                 activation=None,
                 padding="valid"
             )
@@ -90,15 +90,15 @@ class Network:
         # lstm
         with tf.variable_scope("lstm_part" + self.scope)
             self.lstm = tf.nn.rnn_cell.LSTMCell(
-                num_units=,
+                num_units=self.embedding_dim,
                 use_peepholes=True,
                 initializer=tf.contrib.layers.initializers.xavier_initializer(),
-                num_proj=,
+                num_proj=256,
                 name="lstm_cell"
             )
 
-            self.lstm_out, state = tf.nn.dynamic_rnn(
-            )
+            self.lstm_out, state = tf.nn.dynamic_rnn(cell=self.lstm, inputs=self.input_ph
+                                                     )
 
         self.fc_input = tf.concat([self.cnn_out, self.lstm_out])
 

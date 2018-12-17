@@ -6,7 +6,7 @@ Every_steps_save = 2000
 CNN_Filters = 
 CNN_Kernel_size = 
 CNN_Strides = 
-DNN_Shape = 
+DNN_Shape = [128, 32, 1]
 Model_load_path = 
 
 FILE_LOC_NEG = "../data/sample.negative.cn.txt"
