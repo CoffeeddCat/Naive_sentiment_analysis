@@ -12,6 +12,10 @@ class Network:
         self.filters = CNN_Filters
         self.kernel_size = CNN_Kernel_size
         self.strides = CNN_Strides
+        self.every_steps_save = Every_steps_save
+        self.model_load_path = Model_load_path
+
+        self.training_step = 0
 
         # define session
         conf = tf.ConfigProto(allow_soft_placement=True,
@@ -114,9 +118,34 @@ class Network:
         self.trainer = tf.train.AdamOptimizer(
             self.learning_rate).minimize(self.loss)
 
+    def train(self, data):
+
+        self.training_step = self.training_step + 1
+
+        _, loss = self.sess.run([self.trainer, self.loss], feed_dict={
+            self.input_ph: data['words'],
+            self.standard_out: data['tags']
+        })
+
+        if self.training_step % self.every_steps_save == 1:
+            self.model_save()
+
+    def get_result(self, data):
+
+        output = self.sess.run([self.nn_output], feed_dict={
+            self.input_ph: data['words'],
+            self.standard_out: data['tags']
+        })
+
     def model_save(self, name=None):
 
-        # model save
+        print("now training step %d...model saving..." % (self.training_step))
+        if name == None:
+            self.saver.save(self.sess, "model/training_step" + self.scope,
+                            global_step=self.training_step)
+        else:
+            self.saver.save(self.sess, name)
 
     def model_load(self):
-        # load the model
+
+        self.saver.restore(self.sess, self.model_load_path)
