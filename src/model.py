@@ -1,5 +1,5 @@
 import tensorflow as tf
-import numpy as tf
+import numpy as np
 from config import *
 
 
@@ -35,7 +35,7 @@ class Network:
 
     def initialize_ph(self):
         self.input_ph = tf.placeholder(tf.float32, shape=[
-                                       None, 1, Max_sentence_length, Embedding_dim], name="sentence_input")
+                                       None, Max_sentence_length, Embedding_dim, 1], name="sentence_input")
         self.target = tf.placeholder(
             tf.float32, shape=[None, ], name="standard_out")
 
@@ -44,7 +44,7 @@ class Network:
         out = self.input_ph
 
         # cnn part
-        with tf.variable_scope("cnn_part" + self.scope)
+        with tf.variable_scope("cnn_part" + self.scope):
             self.conv1 = tf.layers.conv2d(
                 inputs=out,
                 filters=256,
@@ -53,7 +53,8 @@ class Network:
                 activation=None,
                 padding="valid"
             )
-            self.conv1 = tf.nn.sigmoid(tf.nn.pool(self.conv1, window_shape=, pooling_type="MAX", strides=, padding=))
+            self.conv1 = tf.squeeze(self.conv1, [2])
+            self.conv1 = tf.nn.sigmoid(tf.nn.pool(self.conv1, window_shape=[2], pooling_type="MAX", strides=[2], padding="VALID"))
 
             self.conv2 = tf.layers.conv1d(
                 inputs=self.conv1,
@@ -63,7 +64,7 @@ class Network:
                 activation=None,
                 padding="valid"
             )
-            self.conv2 = tf.nn.sigmoid(tf.nn.pool(self.conv2, window_shape=, pooling_type="MAX", strides=, padding=))
+            self.conv2 = tf.nn.sigmoid(tf.nn.pool(self.conv2, window_shape=[2], pooling_type="MAX", strides=[2], padding="VALID"))
 
             self.conv3 = tf.layers.conv1d(
                 inputs=self.conv2,
@@ -73,7 +74,7 @@ class Network:
                 activation=None,
                 padding="valid"
             )
-            self.conv3 = tf.nn.sigmoid(tf.nn.pool(self.conv3, window_shape=, pooling_type="MAX", strides=, padding=))
+            self.conv3 = tf.nn.sigmoid(tf.nn.pool(self.conv3, window_shape=[2], pooling_type="MAX", strides=[2], padding="VALID"))
 
             self.conv4 = tf.layers.conv1d(
                 inputs=self.conv3,
@@ -84,23 +85,25 @@ class Network:
                 padding="valid"
             )
             self.conv4 = tf.nn.sigmoid(self.conv4)
+            self.conv4 = tf.reshape(self.conv4, [-1, 13 * 16])
 
         self.cnn_out = self.conv4
 
         # lstm
-        with tf.variable_scope("lstm_part" + self.scope)
+        with tf.variable_scope("lstm_part" + self.scope):
             self.lstm = tf.nn.rnn_cell.LSTMCell(
                 num_units=self.embedding_dim,
                 use_peepholes=True,
-                initializer=tf.contrib.layers.initializers.xavier_initializer(),
+                initializer=tf.contrib.layers.xavier_initializer(),
                 num_proj=256,
                 name="lstm_cell"
             )
-
-            self.lstm_out, state = tf.nn.dynamic_rnn(cell=self.lstm, inputs=self.input_ph
+            self.lstm_input = tf.squeeze(self.input_ph, [3])
+            self.lstm_out, final_state = tf.nn.dynamic_rnn(cell=self.lstm, inputs=self.lstm_input, dtype=tf.float32
                                                      )
+            self.lstm_out = tf.reduce_mean(self.lstm_out, keepdims=False, axis=1)
 
-        self.fc_input = tf.concat([self.cnn_out, self.lstm_out])
+        self.fc_input = tf.concat([self.cnn_out, self.lstm_out], axis=-1)
 
         # fc
         with tf.variable_scope("fc_part" + self.scope):
@@ -111,9 +114,11 @@ class Network:
                     units=output_num,
                     activation=tf.nn.sigmoid
                 )
+                fc_out = layer
 
         self.nn_output = fc_out
 
+        # about trainer and loss
         self.loss = tf.reduce_mean(tf.square(self.nn_output - self.target))
         self.trainer = tf.train.AdamOptimizer(
             self.learning_rate).minimize(self.loss)
