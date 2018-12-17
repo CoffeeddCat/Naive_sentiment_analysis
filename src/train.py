@@ -16,7 +16,7 @@ if __name__ == "__main__":
     print(number_neg)
 
     correct = 0
-    for test_sentence in loader_pos.sentences:
+    for test_sentence in loader_neg.sentences:
         # print(test_sentence)
 
         s = set()
@@ -49,6 +49,6 @@ if __name__ == "__main__":
 
         # print(sum_pos, sum_neg)
 
-        if (sum_pos > sum_neg):
+        if (sum_pos < sum_neg):
             correct = correct + 1
-    print(correct / number_pos)
+    print(correct / number_neg)
