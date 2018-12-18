@@ -19,3 +19,8 @@ EN = 1
 Word_Embedding_Dir = '../word_embedding'
 
 Loader_divided = False
+
+Puncts="?()。|？|！!|\n@*&#$%^_-+={}|\;:'\"<>，/ "
+
+Learning_episodes = 100000
+Batch_size = 20
