@@ -1,4 +1,4 @@
-Embedding_dim = 128
+Embedding_dim = 100
 Max_sentence_length = 128
 Learning_rate = 1e-5
 Model_load = False
@@ -15,3 +15,7 @@ LANG = "CN"
 
 CN = 0
 EN = 1
+
+Word_Embedding_Dir = '../word_embedding'
+
+Loader_divided = False

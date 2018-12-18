@@ -64,7 +64,8 @@ def word_segmentation(sentence,language):
 
 def embedding(model,txt,language):
     words=word_segmentation(txt,language)
-    embedding_mat = np.zeros((len(words), Feature_Size[language]))
+    print(words)
+    embedding_mat = np.zeros((len(words), Embedding_dim))
     i=0
     for word in words:
         try:
@@ -77,10 +78,11 @@ def embedding(model,txt,language):
 
 # Testing 
 if __name__ == '__main__':
-    #model_en = load_word2vec_model(EN)
-    model_cn = load_word2vec_model(CN)
-    text="你吼辣么大声干嘛？"
-    mat=embedding(model_cn,text,CN)
+    model_en = load_word2vec_model(EN)
+    # model_cn = load_word2vec_model(CN)
+    text="it's very good"
+    mat=embedding(model_en,text,CN)
+    print(mat.shape)
     print (mat)
     #print (model_en['good'],model_en.most_similar('good',topn=5)) 
     #print (model_cn.most_similar('?',topn=10))
