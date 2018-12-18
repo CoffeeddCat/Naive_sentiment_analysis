@@ -129,7 +129,7 @@ class Network:
 
         _, loss = self.sess.run([self.trainer, self.loss], feed_dict={
             self.input_ph: data['words'],
-            self.standard_out: data['tags']
+            self.target: data['tags']
         })
 
         if self.training_step % self.every_steps_save == 1:
@@ -139,7 +139,7 @@ class Network:
 
         output = self.sess.run([self.nn_output], feed_dict={
             self.input_ph: data['words'],
-            self.standard_out: data['tags']
+            self.target: data['tags']
         })
 
     def model_save(self, name=None):
