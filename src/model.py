@@ -37,7 +37,7 @@ class Network:
         self.input_ph = tf.placeholder(tf.float32, shape=[
                                        None, Max_sentence_length, Embedding_dim, 1], name="sentence_input")
         self.target = tf.placeholder(
-            tf.float32, shape=[None, ], name="standard_out")
+            tf.float32, shape=[None, 1], name="standard_out")
 
     def initialize_network(self):
 
@@ -109,17 +109,22 @@ class Network:
         with tf.variable_scope("fc_part" + self.scope):
             fc_out = self.fc_input
             for output_num in DNN_Shape:
+                if output_num != 1:
+                    fn = tf.nn.sigmoid
+                else:
+                    fn = None
+
                 layer = tf.layers.dense(
                     inputs=fc_out,
                     units=output_num,
-                    activation=tf.nn.sigmoid
+                    activation=fn
                 )
                 fc_out = layer
 
         self.nn_output = fc_out
 
         # about trainer and loss
-        self.loss = tf.reduce_mean(tf.square(self.nn_output - self.target))
+        self.loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=self.nn_output, labels=self.target))
         self.trainer = tf.train.AdamOptimizer(
             self.learning_rate).minimize(self.loss)
 
@@ -132,8 +137,9 @@ class Network:
             self.target: data['tags']
         })
 
-        if self.training_step % self.every_steps_save == 1:
-            self.model_save()
+        return loss
+        # if self.training_step % self.every_steps_save == 1:
+        #     self.model_save()
 
     def get_result(self, data):
 
@@ -141,6 +147,7 @@ class Network:
             self.input_ph: data['words'],
             self.target: data['tags']
         })
+        return output
 
     def model_save(self, name=None):
 
