@@ -28,6 +28,9 @@ Word_Embedding_Dir = '../word_embedding'
 Puncts="?()。|？|！!|\n@*&#$%^_-+={}|\;:'\"<>，/ "
 
 # about training
+TRAIN = True
+TEST = True
+Test_size = 2000
 Every_steps_save = 2000
 Learning_episodes = 100000
 Batch_size = 20

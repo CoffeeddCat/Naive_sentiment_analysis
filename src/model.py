@@ -123,6 +123,8 @@ class Network:
 
         self.nn_output = fc_out
 
+        self.possibility = tf.nn.sigmoid(self.nn_output)
+
         # about trainer and loss
         self.loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=self.nn_output, labels=self.target))
         self.trainer = tf.train.AdamOptimizer(
@@ -143,9 +145,8 @@ class Network:
 
     def get_result(self, data):
 
-        output = self.sess.run([self.nn_output], feed_dict={
-            self.input_ph: data['words'],
-            self.target: data['tags']
+        output = self.sess.run([self.possibility], feed_dict={
+            self.input_ph: data
         })
         return output
 
