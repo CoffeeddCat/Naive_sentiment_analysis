@@ -55,7 +55,7 @@ class Network:
             )
             self.conv1 = tf.squeeze(self.conv1, [2])
             self.conv1 = tf.nn.sigmoid(tf.nn.pool(self.conv1, window_shape=[2], pooling_type="MAX", strides=[2], padding="VALID"))
-
+            print(self.conv1)
             self.conv2 = tf.layers.conv1d(
                 inputs=self.conv1,
                 filters=64,
@@ -65,7 +65,7 @@ class Network:
                 padding="valid"
             )
             self.conv2 = tf.nn.sigmoid(tf.nn.pool(self.conv2, window_shape=[2], pooling_type="MAX", strides=[2], padding="VALID"))
-
+            print(self.conv2)
             self.conv3 = tf.layers.conv1d(
                 inputs=self.conv2,
                 filters=256,
@@ -122,11 +122,12 @@ class Network:
                 fc_out = layer
 
         self.nn_output = fc_out
-
+        print(self.nn_output)
         self.possibility = tf.nn.sigmoid(self.nn_output)
 
         # about trainer and loss
-        self.loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=self.nn_output, labels=self.target))
+        # self.loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=self.nn_output, labels=self.target))
+        self.loss = -1 * tf.reduce_mean(self.target * tf.log(self.possibility) + (1 - self.target) * tf.log(1- self.possibility))
         self.trainer = tf.train.AdamOptimizer(
             self.learning_rate).minimize(self.loss)
 
