@@ -4,7 +4,7 @@ some of the parameter is useless
 """
 Embedding_dim = 100
 Max_sentence_length = 128
-Learning_rate = 1e-5
+Learning_rate = 5e-4
 Model_load = False
 CNN_Filters = 1
 CNN_Kernel_size = 1
@@ -13,8 +13,8 @@ DNN_Shape = [128, 32, 1]
 Model_load_path = 1
 
 # about the loader
-FILE_LOC_NEG = "../data/sample.negative.cn.txt"
-FILE_LOC_POS = "../data/sample.positive.cn.txt"
+FILE_LOC_NEG = "../data/sample.negative.en.txt"
+FILE_LOC_POS = "../data/sample.positive.en.txt"
 Loader_divided = False # the loader preprocess the sentences or not
 
 # language setting

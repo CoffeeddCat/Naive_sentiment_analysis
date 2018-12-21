@@ -15,7 +15,7 @@ if __name__ == '__main__':
     word_vec_model = wdbedding.load_word2vec_model(EN)
 
     episode = 0
-    for episode in tqdm(range(Learning_episodes)):
+    for episode in range(Learning_episodes):
         data_pos = loader_pos.sample(Batch_size)
         data_neg = loader_neg.sample(Batch_size)
         target_pos = np.array([1.0 for i in range(Batch_size)])
@@ -29,7 +29,7 @@ if __name__ == '__main__':
         train_data['words'] = np.reshape(train_data['words'], (-1, Max_sentence_length, Embedding_dim, 1))
         loss = network.train(train_data)
         if episode % 100 ==0:
-            print("now loss %f" % (loss))
+            print("now training step:%d, now loss: %f" % (episode, loss))
 
     if TEST:
         data_pos = loader_pos.sample(Test_size)
