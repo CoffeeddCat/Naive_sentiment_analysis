@@ -34,3 +34,4 @@ Test_size = 2000
 Every_steps_save = 2000
 Learning_episodes = 100000
 Batch_size = 20
+Testing_set_percent = 0.2
