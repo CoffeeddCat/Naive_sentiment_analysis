@@ -5,12 +5,10 @@ some of the parameter is useless
 Embedding_dim = 100
 Max_sentence_length = 128
 Learning_rate = 1e-4
-Model_load = False
 CNN_Filters = 1
 CNN_Kernel_size = 1
 CNN_Strides = 1
 DNN_Shape = [128, 32, 1]
-Model_load_path = 1
 
 # about the loader
 FILE_LOC_NEG = "../data/sample.negative.en.txt"
@@ -27,11 +25,16 @@ Word_Embedding_Dir = '../word_embedding'
 
 Puncts="?()。|？|！!|\n@*&#$%^_-+={}|\;:'\"<>，/ "
 
+# about the model save and load
+Model_save = True
+Model_load_path = '../saved_model/'
+Model_load = False
+
 # about training
 TRAIN = True
 TEST = True
 Test_size = 2000
-Every_steps_save = 2000
-Learning_episodes = 100000
-Batch_size = 20
+Every_steps_save = 10000*100
+Learning_episodes = 2000
+Batch_size = 1
 Testing_set_percent = 0.2

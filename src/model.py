@@ -27,7 +27,7 @@ class Network:
         self.initialize_network()
 
         # define the saver
-        self.saver = tf.train.Saver(max_to_keep=3)
+        self.saver = tf.train.Saver()
         if Model_load:
             self.model_load()
         else:
@@ -55,7 +55,7 @@ class Network:
             )
             self.conv1 = tf.squeeze(self.conv1, [2])
             self.conv1 = tf.nn.sigmoid(tf.nn.pool(self.conv1, window_shape=[2], pooling_type="MAX", strides=[2], padding="VALID"))
-            print(self.conv1)
+
             self.conv2 = tf.layers.conv1d(
                 inputs=self.conv1,
                 filters=64,
@@ -65,7 +65,7 @@ class Network:
                 padding="valid"
             )
             self.conv2 = tf.nn.sigmoid(tf.nn.pool(self.conv2, window_shape=[2], pooling_type="MAX", strides=[2], padding="VALID"))
-            print(self.conv2)
+
             self.conv3 = tf.layers.conv1d(
                 inputs=self.conv2,
                 filters=256,
@@ -99,11 +99,13 @@ class Network:
                 name="lstm_cell"
             )
             self.lstm_input = tf.squeeze(self.input_ph, [3])
+            # print(self.lstm_input)
             self.lstm_out, final_state = tf.nn.dynamic_rnn(cell=self.lstm, inputs=self.lstm_input, dtype=tf.float32
                                                      )
+            print(self.lstm_out)
             self.lstm_out = tf.reduce_mean(self.lstm_out, keepdims=False, axis=1)
 
-        self.fc_input = tf.concat([self.cnn_out, self.lstm_out], axis=-1)
+        self.fc_input = tf.concat([self.lstm_out, self.cnn_out], axis=-1)
 
         # fc
         with tf.variable_scope("fc_part" + self.scope):
@@ -122,7 +124,7 @@ class Network:
                 fc_out = layer
 
         self.nn_output = fc_out
-        print(self.nn_output)
+
         self.possibility = tf.nn.sigmoid(self.nn_output)
 
         # about trainer and loss
@@ -140,9 +142,11 @@ class Network:
             self.target: data['tags']
         })
 
+        if Model_save and self.training_step % self.every_steps_save == 1:
+            self.model_save()
+
         return loss
-        # if self.training_step % self.every_steps_save == 1:
-        #     self.model_save()
+
 
     def get_result(self, data):
 
@@ -152,14 +156,12 @@ class Network:
         return output
 
     def model_save(self, name=None):
-
         print("now training step %d...model saving..." % (self.training_step))
         if name == None:
-            self.saver.save(self.sess, "model/training_step" + self.scope,
+            self.saver.save(self.sess, "../saved_model/model_en",
                             global_step=self.training_step)
         else:
             self.saver.save(self.sess, name)
 
     def model_load(self):
-
         self.saver.restore(self.sess, self.model_load_path)
