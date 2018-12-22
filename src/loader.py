@@ -16,6 +16,8 @@ class Loader:
         self.take_apart()
         self.dict = {}
         self.initialize_dict()
+        print(len(self.sentences))
+        print(len(self.testing_sentences))
         """for s in self.sentences:
             # s = s.translate(self.trans)
             print(s)
@@ -90,11 +92,14 @@ class Loader:
         # print(self.dict)
 
     def sample(self, batch_num):
-        return random.sample(self.testing_sentences, batch_num)
+        return random.sample(self.sentences, batch_num)
+
+    def sample_testing_set(self, batch_num):
+        return self.testing_sentences
 
     def take_apart(self):
         random.shuffle(self.sentences)
-        index = len(self.sentences) * Testing_set_percent
+        index = int(len(self.sentences) * Testing_set_percent)
         self.testing_sentences = copy.deepcopy(self.sentences[:index])
         self.sentences = copy.deepcopy(self.sentences[index:])
 # for test

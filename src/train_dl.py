@@ -32,8 +32,8 @@ if __name__ == '__main__':
             print("now training step:%d, now loss: %f" % (episode, loss))
 
     if TEST:
-        data_pos = loader_pos.sample(Test_size)
-        data_neg = loader_neg.sample(Test_size)
+        data_pos = loader_pos.sample_testing_set(Test_size)
+        data_neg = loader_neg.sample_testing_set(Test_size)
         target_pos = [1 for i in range(Test_size)]
         target_neg = [0 for i in range(Test_size)]
         target = target_pos + target_neg

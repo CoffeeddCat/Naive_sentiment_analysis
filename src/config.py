@@ -4,7 +4,7 @@ some of the parameter is useless
 """
 Embedding_dim = 100
 Max_sentence_length = 128
-Learning_rate = 5e-4
+Learning_rate = 1e-4
 Model_load = False
 CNN_Filters = 1
 CNN_Kernel_size = 1
