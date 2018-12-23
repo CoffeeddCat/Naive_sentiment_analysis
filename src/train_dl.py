@@ -87,4 +87,4 @@ if __name__ == '__main__':
             #correct = correct + 1
             correct = correct_pos + correct_neg
             print("pos correct:%d, neg correct: %d" % (correct_pos, correct_neg))
-            print("correctness: %f"% (correct/(len(data_pos)+len(data_neg)))
+            print("correctness: %f"% (correct/(len(data_pos)+len(data_neg))))
