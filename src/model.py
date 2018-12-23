@@ -93,7 +93,7 @@ class Network:
         with tf.variable_scope("lstm_part" + self.scope):
             self.lstm = tf.nn.rnn_cell.LSTMCell(
                 num_units=self.embedding_dim,
-                use_peepholes=True,
+                use_peepholes=False,
                 initializer=tf.contrib.layers.xavier_initializer(),
                 num_proj=256,
                 name="lstm_cell"

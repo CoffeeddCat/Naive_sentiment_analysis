@@ -35,13 +35,15 @@ if __name__ == '__main__':
         loss = 0
         total_loss = 0
         random.shuffle(data)
-        for index in range(len(data)):
+        for index in tqdm(range(len(data))):
             episode = 0
             training_data = {}
             training_data['words'] = []
             training_data['words'].append(wdbedding.embedding(word_vec_model, data[index][1], EN))
             training_data['words'] = np.reshape(training_data['words'], (-1, Max_sentence_length, Embedding_dim, 1))
             training_data['tags'] = np.reshape(data[index][0], (-1,1))
+            print(data[index][1])
+            print(training_data)
             loss = network.train(training_data)
             total_loss = total_loss + loss
             # data_pos = loader_pos.sample(Batch_size)
@@ -75,8 +77,14 @@ if __name__ == '__main__':
             test_data = np.reshape(test_data, (-1, Max_sentence_length, Embedding_dim, 1))
             result = network.get_result(test_data)
             correct = 0
+            correct_pos = 0
+            correct_neg = 0
             for index in range(len(result[0])):
-                if result[0][index] > 0.5 and target[index] == 1 or result[0][index] < 0.5 and target[index] == 0:
-                    correct = correct + 1
-
-            print("correctness: %f"% (correct/(2*Test_size)))
+                if result[0][index] > 0.5 and target[index] == 1:
+                    correct_pos = correct_pos + 1
+                elif result[0][index] < 0.5 and target[index] == 0:
+                    correct_neg = correct_neg + 1
+            #correct = correct + 1
+            correct = correct_pos + correct_neg
+            print("pos correct:%d, neg correct: %d" % (correct_pos, correct_neg))
+            print("correctness: %f"% (correct/(len(data_pos)+len(data_neg)))
