@@ -42,8 +42,8 @@ if __name__ == '__main__':
             training_data['words'].append(wdbedding.embedding(word_vec_model, data[index][1], EN))
             training_data['words'] = np.reshape(training_data['words'], (-1, Max_sentence_length, Embedding_dim, 1))
             training_data['tags'] = np.reshape(data[index][0], (-1,1))
-            print(data[index][1])
-            print(training_data)
+            #print(data[index][1])
+            #print(training_data)
             loss = network.train(training_data)
             total_loss = total_loss + loss
             # data_pos = loader_pos.sample(Batch_size)
@@ -67,8 +67,8 @@ if __name__ == '__main__':
         if TEST:
             data_pos = loader_pos.sample_testing_set(Test_size)
             data_neg = loader_neg.sample_testing_set(Test_size)
-            target_pos = [1 for i in range(Test_size)]
-            target_neg = [0 for i in range(Test_size)]
+            target_pos = [1 for i in range(len(data_pos))]
+            target_neg = [0 for i in range(len(data_neg))]
             target = target_pos + target_neg
             test_data = []
             for sentence in (data_pos + data_neg):
