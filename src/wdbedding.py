@@ -22,7 +22,7 @@ def load_word2vec_model(language):
         # return gensim.models.Word2Vec.load(os.path.join(Word_Embedding_Dir,'wiki_word2vec','word2vec_wiki.model')) # Feature_Size = 500
 
         # model based on wechat training set : feature size=256
-        return gensim.models.Word2Vec.load(os.path.join(Word_Embedding_Dir, 'word2vec_wx'))  # Feature_Size = 256
+        return gensim.models.Word2Vec.load(os.path.join(Word_Embedding_Dir, 'word2vec_wiki.model'))  # Feature_Size = 256
     elif language == EN:
         return gensim.models.Word2Vec.load(
             os.path.join(Word_Embedding_Dir, 'word2vec_en_trained.txt'))  # Feature_Size = 100
@@ -62,10 +62,16 @@ def word_unabbrivated(words):
             words[i] = "not"
     return words
 
+def div_word(sentence):
+    while len(sentence)>0 and (sentence[0]=='\n' or sentence[0] == ''):
+        sentence = sentence[1:]
+    while len(sentence)>0 and (sentence[-1]=='\n' or sentence[-1] == ''):
+        sentence = sentence[:-1]
+    return sentence
 
 def word_segmentation(sentence, language):
     if language == CN:
-        return skip_punct(jieba.lcut(sentence))
+        return jieba.lcut(div_word(sentence))
     elif language == EN:
         return skip_punct(word_unabbrivated(word_tokenize(sentence)))
 

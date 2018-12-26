@@ -2,7 +2,7 @@
 """
 some of the parameter is useless
 """
-Embedding_dim = 100
+Embedding_dim = 500
 Max_sentence_length = 128
 Learning_rate = 1e-4
 CNN_Filters = 1
@@ -11,8 +11,8 @@ CNN_Strides = 1
 DNN_Shape = [128, 32, 1]
 
 # about the loader
-FILE_LOC_NEG = "../data/sample.negative.en.txt"
-FILE_LOC_POS = "../data/sample.positive.en.txt"
+FILE_LOC_NEG = "../data/sample.negative.cn.txt"
+FILE_LOC_POS = "../data/sample.positive.cn.txt"
 Loader_divided = False # the loader preprocess the sentences or not
 
 # language setting
@@ -21,13 +21,13 @@ CN = 0
 EN = 1
 
 # about the word embedding
-Word_Embedding_Dir = '../word_embedding'
+Word_Embedding_Dir = '../../wiki'
 
 Puncts="?()。|？|！!|\n@*&#$%^_-+={}|\;:'\"<>，/ "
 
 # about the model save and load
-Model_save = True
-Model_load_path = '../saved_model/'
+Model_save = False
+Model_load_path = '../saved_model/model_en-1080001'
 Model_load = False
 
 # about training

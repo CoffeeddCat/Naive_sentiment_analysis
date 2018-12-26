@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     network = Network("training")
 
-    word_vec_model = wdbedding.load_word2vec_model(EN)
+    word_vec_model = wdbedding.load_word2vec_model(CN)
 
     episode = 0
 
@@ -39,7 +39,7 @@ if __name__ == '__main__':
             episode = 0
             training_data = {}
             training_data['words'] = []
-            training_data['words'].append(wdbedding.embedding(word_vec_model, data[index][1], EN))
+            training_data['words'].append(wdbedding.embedding(word_vec_model, data[index][1], CN))
             training_data['words'] = np.reshape(training_data['words'], (-1, Max_sentence_length, Embedding_dim, 1))
             training_data['tags'] = np.reshape(data[index][0], (-1,1))
             #print(data[index][1])
@@ -72,7 +72,7 @@ if __name__ == '__main__':
             target = target_pos + target_neg
             test_data = []
             for sentence in (data_pos + data_neg):
-                test_data.append(wdbedding.embedding(word_vec_model, sentence, EN))
+                test_data.append(wdbedding.embedding(word_vec_model, sentence, CN))
 
             test_data = np.reshape(test_data, (-1, Max_sentence_length, Embedding_dim, 1))
             result = network.get_result(test_data)
