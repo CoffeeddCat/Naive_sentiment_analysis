@@ -84,6 +84,7 @@ class Network:
                 activation=None,
                 padding="valid"
             )
+            print(self.conv4)
             self.conv4 = tf.nn.sigmoid(self.conv4)
             self.conv4 = tf.reshape(self.conv4, [-1, 13 * 16])
 

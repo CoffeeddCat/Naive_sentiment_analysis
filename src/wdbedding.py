@@ -80,14 +80,17 @@ def embedding(model, txt, language):
     words = word_segmentation(txt, language)
     embedding_mat = np.zeros((Max_sentence_length, Embedding_dim))
     i = 0
+    # j = 0
     for word in words:
         try:
             embedding_mat[i] = model[word]
         except KeyError:
+            # j = j + 1
             embedding_mat[i] = 0.0
         i = i + 1
-        if i==128:
+        if i==Max_sentence_length:
             break
+    # print("total loss %d" %j)
     return embedding_mat
 
 
