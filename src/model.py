@@ -30,6 +30,7 @@ class Network:
         self.saver = tf.train.Saver()
         if Model_load:
             self.model_load()
+            print("model loaded.")
         else:
             self.sess.run(tf.initialize_all_variables())
 

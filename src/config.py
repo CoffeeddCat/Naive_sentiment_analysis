@@ -2,7 +2,7 @@
 """
 some of the parameter is useless
 """
-Embedding_dim = 100
+Embedding_dim = 300
 Max_sentence_length = 128
 Learning_rate = 1e-4
 CNN_Filters = 1
@@ -27,11 +27,11 @@ Puncts="?()。|？|！!|\n@*&#$%^_-+={}|\;:'\"<>，/ "
 
 # about the model save and load
 Model_save = False
-Model_load_path = '../saved_model/model_en-1080001'
-Model_load = False
+Model_load_path = '../saved_model/model_en-140001'
+Model_load = True
 
 # about training
-TRAIN = True
+TRAIN = False
 TEST = True
 Test_size = 2000
 Every_steps_save = 10000*2

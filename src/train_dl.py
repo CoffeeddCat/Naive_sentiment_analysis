@@ -35,37 +35,38 @@ if __name__ == '__main__':
         loss = 0
         total_loss = 0
         random.shuffle(data)
-        for index in tqdm(range(len(data))):
-            episode = 0
-            training_data = {}
-            training_data['words'] = []
-            training_data['tags'] = []
-            for i in range(1):
-                training_data['words'].append(wdbedding.embedding(word_vec_model, data[(index+i)%len(data)][1], EN))
-                # training_data['words'] = np.reshape(training_data['words'], (-1, Max_sentence_length, Embedding_dim, 1))
-                training_data['tags'].append(data[(index+i)%len(data)][0])
-            training_data['words'] = np.reshape(training_data['words'], (-1, Max_sentence_length, Embedding_dim, 1))
-            training_data['tags'] = np.reshape(training_data['tags'], (-1,1))
-            #print(data[index][1])
-            #print(training_data)
-            loss = network.train(training_data)
-            total_loss = total_loss + loss
-            # data_pos = loader_pos.sample(Batch_size)
-            # data_neg = loader_neg.sample(Batch_size)
-            # target_pos = np.array([1.0 for i in range(Batch_size)])
-            # target_neg = np.array([0.0 for i in range(Batch_size)])
-            # train_data = {}
-            # train_data['words'] = []
-            # for sentence in (data_pos + data_neg):
-            #     train_data['words'].append(wdbedding.embedding(word_vec_model, sentence, EN))
-            # train_data['tags'] = np.reshape(np.concatenate((target_pos, target_neg), axis=0), (-1,1))
-            # # print(train_data['tags'])
-            # train_data['words'] = np.reshape(train_data['words'], (-1, Max_sentence_length, Embedding_dim, 1))
-            # print(train_data['tags'])
-            # loss = network.train(train_data)
-            # if episode % 100 ==0:
-            #     print("now training step:%d, now loss: %f" % (episode, loss))
-        print("now training step:%d, average loss: %f" % (episode, total_loss/len(data)))
+        if TRAIN:
+          for index in tqdm(range(len(data))):
+              episode = 0
+              training_data = {}
+              training_data['words'] = []
+              training_data['tags'] = []
+              for i in range(1):
+                  training_data['words'].append(wdbedding.embedding(word_vec_model, data[(index+i)%len(data)][1], EN))
+                  # training_data['words'] = np.reshape(training_data['words'], (-1, Max_sentence_length, Embedding_dim, 1))
+                  training_data['tags'].append(data[(index+i)%len(data)][0])
+              training_data['words'] = np.reshape(training_data['words'], (-1, Max_sentence_length, Embedding_dim, 1))
+              training_data['tags'] = np.reshape(training_data['tags'], (-1,1))
+              #print(data[index][1])
+              #print(training_data)
+              loss = network.train(training_data)
+              total_loss = total_loss + loss
+              # data_pos = loader_pos.sample(Batch_size)
+              # data_neg = loader_neg.sample(Batch_size)
+              # target_pos = np.array([1.0 for i in range(Batch_size)])
+              # target_neg = np.array([0.0 for i in range(Batch_size)])
+              # train_data = {}
+              # train_data['words'] = []
+              # for sentence in (data_pos + data_neg):
+              #     train_data['words'].append(wdbedding.embedding(word_vec_model, sentence, EN))
+              # train_data['tags'] = np.reshape(np.concatenate((target_pos, target_neg), axis=0), (-1,1))
+              # # print(train_data['tags'])
+              # train_data['words'] = np.reshape(train_data['words'], (-1, Max_sentence_length, Embedding_dim, 1))
+              # print(train_data['tags'])
+              # loss = network.train(train_data)
+              # if episode % 100 ==0:
+              #     print("now training step:%d, now loss: %f" % (episode, loss))
+          print("now training step:%d, average loss: %f" % (episode, total_loss/len(data)))
 
 
         if TEST:

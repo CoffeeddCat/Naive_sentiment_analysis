@@ -24,8 +24,9 @@ def load_word2vec_model(language):
         # model based on wechat training set : feature size=256
         return gensim.models.Word2Vec.load(os.path.join(Word_Embedding_Dir, 'word2vec_wiki.model'))  # Feature_Size = 256
     elif language == EN:
-        return gensim.models.Word2Vec.load(
-            os.path.join(Word_Embedding_Dir, 'word2vec_en_trained.txt'))  # Feature_Size = 100
+        #return gensim.models.Word2Vec.load(os.path.join(Word_Embedding_Dir, 'word2vec_en_trained.txt'))
+        return gensim.models.KeyedVectors.load_word2vec_format(
+            os.path.join(Word_Embedding_Dir, 'glove_model.txt'))  # Feature_Size = 100
 
 
 # skip puncts in chinese texts
