@@ -6,6 +6,7 @@ from config import *
 class Network:
 
     def __init__(self, scope):
+        # init some hyper parameters
         self.embedding_dim = Embedding_dim
         self.learning_rate = Learning_rate
         self.scope = scope

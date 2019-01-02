@@ -8,16 +8,16 @@ except ImportError:
     import xml.etree.ElementTree as ET
 
 if __name__ == '__main__':
-
+    # network init
     network = Network("training")
-
+    # embedding model init
     word_vec_model = wdbedding.load_word2vec_model(EN)
     print("word2vec model_loaded.")
-
+    # about the file
     input_file_path = '../data/task2_input_en.xml'
     xmltree = ET.parse(input_file_path)
     xmlroot = xmltree.getroot()
-
+    # iterate the xml tree
     for review in xmlroot:
         txt = review.text
         if txt[-1] == '\n':
@@ -29,6 +29,8 @@ if __name__ == '__main__':
         test_data.append(wdbedding.embedding(word_vec_model, txt, EN))
 
         test_data = np.reshape(test_data, (-1, Max_sentence_length, Embedding_dim, 1))
+
+        # get the result
         result = network.get_result(test_data)
 
         print(result)

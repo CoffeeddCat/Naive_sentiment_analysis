@@ -1,5 +1,7 @@
 import gensim
-
+"""
+this code is for experiment. we don't use in our model.
+"""
 class MySentences(object):
     def __init__(self, dirname):
         self.dirname = dirname

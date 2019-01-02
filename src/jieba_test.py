@@ -1,6 +1,9 @@
 import jieba
 import copy
 
+"""
+the code in this file is for jieba test
+"""
 file_path = "../data/sample.negative.cn.txt"
 file = open(file_path, mode='r', encoding="UTF-8")
 string = file.read()

@@ -4,6 +4,11 @@ from config import *
 import copy
 import math
 
+"""
+here is the Naive Bayes code.
+But finally we don't use this method.
+"""
+
 if __name__ == "__main__":
     loader_pos = Loader(FILE_LOC_POS)
     loader_neg = Loader(FILE_LOC_NEG)

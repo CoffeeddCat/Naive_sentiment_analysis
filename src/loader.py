@@ -26,6 +26,7 @@ class Loader:
         self.sentences = []
 
         if Loader_divided:
+            # if the sentence is divided in the loader
             if LANG == "CN":
                 move_ = ['《', '》', '！', '？', '，', '~', '`', ' ', '。',
                          '“', "”", '!', ',', '...', '；', '..', '.', ',', '．']
@@ -62,6 +63,7 @@ class Loader:
                     self.sentences.append(copy.deepcopy(sentence_temp_))
             print(self.sentences)
         else:
+            # if the sentence don't need be divided in the loader
             for sentence in self.sentences_temp:
                 index = sentence.find(">")
                 sentence_temp = sentence[index + 1:]
@@ -69,6 +71,7 @@ class Loader:
 
 
     def initialize_dict(self):
+        # here is for the Naive Bayes to establish a dict.
         for sentence in self.sentences:
             s = set()
             for word in sentence:
@@ -82,12 +85,15 @@ class Loader:
         self.dict_len = len(self.dict)
 
     def sample(self, batch_num):
+        # sample some sentences
         return random.sample(self.sentences, batch_num)
 
     def sample_testing_set(self, batch_num):
+        # return all the testing set.
         return self.testing_sentences
 
     def take_apart(self):
+        # divide the training set and the testing set.
         random.shuffle(self.sentences)
         index = int(len(self.sentences) * Testing_set_percent)
         self.testing_sentences = copy.deepcopy(self.sentences[:index])
