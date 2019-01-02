@@ -35,6 +35,8 @@ if __name__ == '__main__':
 
         if (result[0][0]>0.5):
             review.set("polarity","1")
+        else:
+            review.set("polarity", "-1")
 
-    output_file_path = '../data/task2_input_en.xml'
+    output_file_path = '../data/task2_output_en.xml'
     xmltree.write(output_file_path, encoding="utf-8")
