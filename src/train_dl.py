@@ -15,7 +15,9 @@ if __name__ == '__main__':
     network = Network("training")
 
     word_vec_model = wdbedding.load_word2vec_model(EN)
-
+    print("word2vec model_loaded")
+    #word_vec_model.save('glovve_model')
+    #print("word2vec model saved.")
     episode = 0
 
     data_pos = []

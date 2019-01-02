@@ -27,7 +27,7 @@ def load_word2vec_model(language):
         #return gensim.models.Word2Vec.load(os.path.join(Word_Embedding_Dir, 'word2vec_en_trained.txt'))
         return gensim.models.KeyedVectors.load_word2vec_format(
             os.path.join(Word_Embedding_Dir, 'glove_model.txt'))  # Feature_Size = 100
-
+        #return gensim.models.Word2Vec.load('glovve_model')
 
 # skip puncts in chinese texts
 def skip_punct(sentence):
