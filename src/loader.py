@@ -18,16 +18,11 @@ class Loader:
         self.initialize_dict()
         print(len(self.sentences))
         print(len(self.testing_sentences))
-        """for s in self.sentences:
-            # s = s.translate(self.trans)
-            print(s)
-            print('\n')"""
 
     def initialize_sentences(self):
         self.string = self.string.replace('\n', '')
         self.sentences_temp = self.string.split("</review>")
         self.sentences_temp.pop()  # delete the last blank sentence
-        # print("!!!", self.sentences_temp)
         self.sentences = []
 
         if Loader_divided:
@@ -37,17 +32,14 @@ class Loader:
                 for sentence in self.sentences_temp:
                     index = sentence.find(">")
                     sentence_temp = sentence[index + 1:]
-                    # sentence_temp = re.sub(r, '', sentence_temp)
                     sentence_temp = jieba.lcut(sentence_temp)
                     for x in move_:
                         flag = True
                         try:
                             while flag:
                                 sentence_temp.remove(x)
-                                # print(2333333)
                         except ValueError:
                             flag = False
-                    # print(sentence_temp)
                     self.sentences.append(copy.deepcopy(sentence_temp))
             elif LANG == "EN":
                 for sentence in self.sentences_temp:
@@ -56,7 +48,6 @@ class Loader:
                     sentence_temp = copy.deepcopy(
                         sentence_temp.translate(self.trans))
                     sentence_temp = sentence_temp.replace('&', '')
-                    # print(sentence_temp)
                     sentence_temp = sentence_temp.split(" ")
                     while True:
                         try:
@@ -89,7 +80,6 @@ class Loader:
                         self.dict[word] = 1
                     s.add(word)
         self.dict_len = len(self.dict)
-        # print(self.dict)
 
     def sample(self, batch_num):
         return random.sample(self.sentences, batch_num)
@@ -102,5 +92,3 @@ class Loader:
         index = int(len(self.sentences) * Testing_set_percent)
         self.testing_sentences = copy.deepcopy(self.sentences[:index])
         self.sentences = copy.deepcopy(self.sentences[index:])
-# for test
-# Loader(FILE_LOC_POS)
